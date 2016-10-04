@@ -33,7 +33,7 @@
 var game = new Phaser.Game(640, 1000, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
 
 function preload() {
-	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
+	game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
 
     game.load.image('ball', 'assets/images/ball.png');
     game.load.image('hoop', 'assets/images/hoop.png');
@@ -134,10 +134,10 @@ function create() {
 	game.input.onDown.add(click, this);
 	game.input.onUp.add(release, this);
 
-
-	var instructions = document.createElement("span");
-	instructions.innerHTML = "Instructions: Quickly drag the ball to shoot the ball into the hoop!";
-	document.body.appendChild(instructions);
+	//
+	// var instructions = document.createElement("span");
+	// instructions.innerHTML = "Instructions: Quickly drag the ball to shoot the ball into the hoop!";
+	// document.body.appendChild(instructions);
 }
 
 function update() {
