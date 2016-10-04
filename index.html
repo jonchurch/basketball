@@ -111,9 +111,9 @@ function create() {
 	current_best_text = game.add.text(143, 281, '', { font: 'Arial', fontSize: '20px', fill: '#000', align: 'center' });// 230, 450
 	current_best_score_text = game.add.text(187, 312, '', { font: 'Arial', fontSize: '40px', fill: '#00e6e6', align: 'center' }); // 300, 500
 
-	hoop = game.add.sprite(88, 62, 'hoop'); // 141, 100
-	left_rim = game.add.sprite(150, 184, 'side rim'); // 241, 296
-	right_rim = game.add.sprite(249, 184, 'side rim'); // 398, 296
+	hoop = game.add.sprite(141, 100, 'hoop'); // 141, 100
+	left_rim = game.add.sprite(241, 296, 'side rim'); // 241, 296
+	right_rim = game.add.sprite(398, 296, 'side rim'); // 398, 296
 
 	game.physics.p2.enable([ left_rim, right_rim], false);
 
