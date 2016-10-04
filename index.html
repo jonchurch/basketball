@@ -32,7 +32,7 @@
 var game = new Phaser.Game(400, 625, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
 
 function preload() {
-	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
+	game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
 
     game.load.image('ball', 'assets/images/ball.png');
     game.load.image('hoop', 'assets/images/hoop.png');
