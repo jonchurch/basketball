@@ -68,7 +68,8 @@ var hoop,
  		current_score_text,
  		high_score = 0,
  		high_score_text,
- 		current_best_text;
+ 		current_best_text,
+		twitter_link;
 
 var score_sound,
 		backboard,
@@ -110,6 +111,7 @@ function create() {
 	current_score_text = game.add.text(187, 312, '', { font: 'Arial', fontSize: '40px', fill: '#000', align: 'center' }); // 300, 500
 	current_best_text = game.add.text(143, 281, '', { font: 'Arial', fontSize: '20px', fill: '#000', align: 'center' });// 230, 450
 	current_best_score_text = game.add.text(187, 312, '', { font: 'Arial', fontSize: '40px', fill: '#00e6e6', align: 'center' }); // 300, 500
+	twitter_link = game.add.text(155, 210, '@jonchurch', {font: 'Arial', fontSize: '16px', fill: 'blue', align: 'center'} )
 
 	hoop = game.add.sprite(92, 62, 'hoop'); // 141, 100
 	left_rim = game.add.sprite(154, 184, 'side rim'); // 241, 296
