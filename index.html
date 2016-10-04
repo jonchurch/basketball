@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta property="og:site_name" content="Dunk The Trump"/>
-	<meta property="og:image" content="/assets/trump2.png">
+	<meta property="og:image" content="YOURIMAGEURLGOESHERE.JPG">
     <title>Dunk The Trump</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
     <style type="text/css">
@@ -87,8 +87,6 @@ var collisionGroup;
 
 function create() {
 
-	// const text = game.add.text(0,0 '@JonChurch', )
-
 	game.physics.startSystem(Phaser.Physics.P2JS);
 
 	game.physics.p2.setImpactEvents(true);
@@ -113,9 +111,9 @@ function create() {
 	current_best_text = game.add.text(143, 281, '', { font: 'Arial', fontSize: '20px', fill: '#000', align: 'center' });// 230, 450
 	current_best_score_text = game.add.text(187, 312, '', { font: 'Arial', fontSize: '40px', fill: '#00e6e6', align: 'center' }); // 300, 500
 
-	hoop = game.add.sprite(141, 100, 'hoop'); // 141, 100
-	left_rim = game.add.sprite(241, 296, 'side rim'); // 241, 296
-	right_rim = game.add.sprite(398, 296, 'side rim'); // 398, 296
+	hoop = game.add.sprite(92, 62, 'hoop'); // 141, 100
+	left_rim = game.add.sprite(154, 184, 'side rim'); // 241, 296
+	right_rim = game.add.sprite(253, 184, 'side rim'); // 398, 296
 
 	game.physics.p2.enable([ left_rim, right_rim], false);
 
