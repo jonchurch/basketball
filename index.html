@@ -30,13 +30,13 @@
 <script type="text/javascript">
 
 // NOTE: Originally 640x1000. Other possible sizes: 512x800, 400x625
-var game = new Phaser.Game(400, 625, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(640, 1000, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 function preload() {
-	game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
+	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
 
     game.load.image('ball', 'assets/images/ball.png');
-    game.load.image('hoop', 'assets/images/hoop.png');
+    game.load.image('hoop', 'assets/images/toilet.png');
 		game.load.image('side rim', 'assets/images/side_rim.png');
 		game.load.image('front rim', 'assets/images/front_rim.png');
 
@@ -113,7 +113,7 @@ function create() {
 	current_best_score_text = game.add.text(187, 312, '', { font: 'Arial', fontSize: '40px', fill: '#00e6e6', align: 'center' }); // 300, 500
 	twitter_link = game.add.text(155, 210, '@jonchurch', {font: 'Arial', fontSize: '16px', fill: 'blue', align: 'center'} )
 
-	hoop = game.add.sprite(92, 62, 'hoop'); // 141, 100
+	hoop = game.add.sprite(0, 0, 'hoop'); // 141, 100
 	left_rim = game.add.sprite(154, 184, 'side rim'); // 241, 296
 	right_rim = game.add.sprite(253, 184, 'side rim'); // 398, 296
 
