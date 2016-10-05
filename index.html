@@ -40,6 +40,7 @@ function preload() {
 		game.load.image('side rim', 'assets/images/side_rim.png');
 		game.load.image('front rim', 'assets/images/front_rim.png');
 
+		game.load.image('splash', 'assets/images/splash.png');
 		game.load.image('win0', 'assets/images/win0.png');
 		game.load.image('win1', 'assets/images/win1.png');
 		game.load.image('win2', 'assets/images/win2.png');
@@ -81,6 +82,7 @@ var moveInTween,
 		fadeInTween,
 		moveOutTween,
 		fadeOutTween,
+		splash,
 		emoji,
 		emojiName;
 
@@ -157,6 +159,13 @@ function update() {
 			emojiName = "win" + rand;
 			current_score += 1;
 			current_score_text.text = current_score;
+			splash = game.add.sprite(160, 100, 'splash');
+			splash.scale.setTo(0.25, 0.25);
+			
+			splash = game.add.sprite(200, 100, 'splash');
+
+			splash.scale.setTo(0.25, 0.25);
+
 			score_sound.play();
 		} else {
 			emojiName = "lose" + rand;
