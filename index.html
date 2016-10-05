@@ -33,7 +33,7 @@
 var game = new Phaser.Game(640, 1000, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 function preload() {
-	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
+	game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
 
     game.load.image('ball', 'assets/images/ball.png');
     game.load.image('hoop', 'assets/images/toilet.png');
@@ -145,7 +145,7 @@ function create() {
 function update() {
 
 	if (ball && ball.body.velocity.y > 0) {
-		front_rim = game.add.sprite(148, 182, 'front rim');
+		// front_rim = game.add.sprite(148, 182, 'front rim');
 		ball.body.collides([collisionGroup], hitRim, this);
 	}
 
