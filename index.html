@@ -4,22 +4,15 @@
 	<meta charset="UTF-8" />
 	<meta property="og:site_name" content="Dunk The Trump"/>
 	<meta property="og:image" content="assets/images/trump_demo.png">
+	<meta name="viewport" content="initial-scale=1.0">
+
     <title>Dunk The Trump</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
     <style type="text/css">
-        body {
-            margin: 0;
+        * {
+        	margin: 0;
+					padding: 0;
         }
-				canvas {
-					margin: 0 auto;
-					/*border: thin solid black;*/
-				}
-				span {
-					display: block;
-					margin: 30px auto;
-					width: 500px;
-					text-align: center;
-				}
 				h2 {
 					text-align: center;
 				}
@@ -32,8 +25,12 @@
 // NOTE: Originally 640x1000. Other possible sizes: 512x800, 400x625
 var game = new Phaser.Game(400, 625, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
+
+
 function preload() {
-	game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
+	// game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
+
+
 
     game.load.image('ball', 'assets/images/ball.png');
     game.load.image('hoop', 'assets/images/toilet.png');
@@ -90,6 +87,20 @@ var collisionGroup;
 
 function create() {
 
+	if (game.device.desktop == false) {
+		// Set Scaling mode to SHOW_ALL to show all the game
+		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
+
+		// Set A minimum and maximum size for the game
+		game.scale.setMinMax(game.width/2, game.height/2, game.width, game.height)
+
+		// Center the game horizontally and veritcally
+		game.scale.pageAlignHorizontally = true
+		game.scale.pageAligthVertically = true
+
+
+	}
+
 	game.physics.startSystem(Phaser.Physics.P2JS);
 
 	game.physics.p2.setImpactEvents(true);
@@ -116,6 +127,9 @@ function create() {
 	twitter_link = game.add.text(155, 210, '@jonchurch', {font: 'Arial', fontSize: '16px', fill: 'blue', align: 'center'} )
 
 	hoop = game.add.sprite(0, 0, 'hoop'); // 141, 100
+	// hoop.add.child(current_score_text)
+	// hoop.add.child(current_best_text)
+	// hoop.add.child(current_best_score_text)
 	left_rim = game.add.sprite(154, 184, 'side rim'); // 241, 296
 	right_rim = game.add.sprite(253, 184, 'side rim'); // 398, 296
 
@@ -161,7 +175,7 @@ function update() {
 			current_score_text.text = current_score;
 			splash = game.add.sprite(160, 100, 'splash');
 			splash.scale.setTo(0.25, 0.25);
-			
+
 			splash = game.add.sprite(200, 100, 'splash');
 
 			splash.scale.setTo(0.25, 0.25);
