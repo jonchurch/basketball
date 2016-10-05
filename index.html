@@ -56,6 +56,8 @@ function preload() {
 
 }
 
+var dummy;
+
 var hoop,
  		left_rim,
  		right_rim,
@@ -227,7 +229,8 @@ function createBall() {
 		xpos = 60 + Math.random() * 280;
 	}
 	spawn.play();
-	ball = game.add.sprite(xpos, 547, 'ball');
+	// ball = game.add.sprite(xpos, 547, 'ball');
+	ball = game.add.sprite(340, 547, 'ball');
 	game.add.tween(ball.scale).from({x : 0.7, y : 0.7}, 100, Phaser.Easing.Linear.None, true, 0, 0, false);
 	game.physics.p2.enable(ball, false);
 	ball.body.setCircle(60); // NOTE: Goes from 60 to 36
@@ -249,7 +252,7 @@ function click(pointer) {
 		isDown = true;
 		location_interval = setInterval(function () {
 			start_location = [pointer.x, pointer.y];
-		}.bind(this), 200);
+		}.bind(this), 100);
 	}
 
 }
@@ -265,6 +268,8 @@ function release(pointer) {
 			var slope = [end_location[0] - start_location[0], end_location[1] - start_location[1]];
 			var x_traj = -2300 * slope[0] / slope[1];
 			launch(x_traj);
+			console.log('x_traj =', x_traj)
+			console.log('slope =', slope)
 		}
 	}
 
@@ -278,9 +283,11 @@ function launch(x_traj) {
 		current_best_text.text = '';
 		current_best_score_text.text = '';
 		ball.launched = true;
+
 		game.physics.p2.gravity.y = 3000;
 		game.add.tween(ball.scale).to({x : 0.6, y : 0.6}, 500, Phaser.Easing.Linear.None, true, 0, 0, false);
-		ball.body.velocity.x = x_traj;
+
+		ball.body.velocity.x = dummy //x_traj;
 		ball.body.velocity.y = -1750;
 		ball.body.rotateRight(x_traj / 3);
 		whoosh.play();
