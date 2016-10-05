@@ -25,8 +25,6 @@
 // NOTE: Originally 640x1000. Other possible sizes: 512x800, 400x625
 var game = new Phaser.Game(400, 625, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
-
-
 function preload() {
 	// game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
 
@@ -94,12 +92,11 @@ function create() {
 		// Set A minimum and maximum size for the game
 		game.scale.setMinMax(game.width/2, game.height/2, game.width, game.height)
 
-		// Center the game horizontally and veritcally
-		game.scale.pageAlignHorizontally = true
-		game.scale.pageAligthVertically = true
-
-
 	}
+
+	// Center the game horizontally and veritcally
+	game.scale.pageAlignHorizontally = true
+	game.scale.pageAligthVertically = true
 
 	game.physics.startSystem(Phaser.Physics.P2JS);
 
