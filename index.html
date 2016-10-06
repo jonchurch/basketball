@@ -31,7 +31,8 @@ function preload() {
 
 
     game.load.image('ball', 'assets/images/ball.png');
-    game.load.image('hoop', 'assets/images/toilet.png');
+    game.load.image('hoop', 'assets/images/toilet_full.png');
+		game.load.image('toilet_bottom', 'assets/images/toilet_bottom.png')
     // game.load.image('hoop', 'assets/images/hoop.png');
 		game.load.image('side rim', 'assets/images/side_rim.png');
 		game.load.image('front rim', 'assets/images/front_rim.png');
@@ -59,10 +60,12 @@ function preload() {
 var dummy;
 
 var hoop,
+		goal,
  		left_rim,
  		right_rim,
  		ball,
  		front_rim,
+		toilet_bottom,
  		current_score = 0,
  		current_score_text,
  		high_score = 0,
@@ -82,7 +85,9 @@ var moveInTween,
 		fadeOutTween,
 		splash,
 		emoji,
-		emojiName;
+		emojiName,
+		moveInSplash,
+		fadeInSplash;
 
 var collisionGroup;
 
@@ -126,7 +131,7 @@ function create() {
 	current_best_score_text = game.add.text(187, 395, '', { font: 'Arial', fontSize: '40px', fill: '#00e6e6', align: 'center' }); // 300, 500
 	// twitter_link = game.add.text(155, 410, '@jonchurch', {font: 'Arial', fontSize: '16px', fill: 'blue', align: 'center'} )
 
-	hoop = game.add.sprite(0, 0, 'hoop'); // 141, 100
+	hoop = game.add.sprite(127, 0, 'hoop'); // 141, 100
 	// hoop.add.child(current_score_text)
 	// hoop.add.child(current_best_text)
 	// hoop.add.child(current_best_score_text)
@@ -161,7 +166,7 @@ function create() {
 function update() {
 
 	if (ball && ball.body.velocity.y > 0) {
-		// front_rim = game.add.sprite(148, 182, 'front rim');
+		toilet_bottom = game.add.sprite(127, 161, 'toilet_bottom');
 		ball.body.collides([collisionGroup], hitRim, this);
 	}
 
@@ -177,6 +182,12 @@ function update() {
 			// splash.scale.setTo(0.25, 0.25);
 			// splash = game.add.sprite(200, 100, 'splash');
 			// splash.scale.setTo(0.25, 0.25);
+
+			splash = game.add.sprite(200, 210, 'splash')
+			splash.angle += -90
+			splash.scale.setTo(0.25, 0.25)
+			splash.alive = true
+			goal = true
 
 			score_sound.play();
 		} else {
@@ -196,9 +207,20 @@ function update() {
 		moveInTween = game.add.tween(emoji).from( { y: 150 }, 500, Phaser.Easing.Elastic.Out, true);
 		fadeInTween = game.add.tween(emoji).from( { alpha: 0 }, 200, Phaser.Easing.Linear.None, true, 0, 0, false);
 		moveInTween.onComplete.add(tweenOut, this);
+		moveInSplash = game.add.tween(splash).from( { y: 150 }, 500, Phaser.Easing.Elastic.Out, true);
+		fadeInSplash = game.add.tween(splash).from( { alpha: 0 }, 200, Phaser.Easing.Linear.None, true, 0, 0, false);
+
+
 	}
 
-	if (ball && ball.body.y > 1200) {
+	if (ball && ball.body.y > 300 && goal === true) {
+		game.physics.p2.gravity.y = 0;
+		ball.kill();
+		createBall();
+		goal = false
+		console.log('KILL IT!')
+	}
+	if (ball && ball.body.y > 1200 ) {
 		game.physics.p2.gravity.y = 0;
 		ball.kill();
 		createBall();
@@ -208,10 +230,17 @@ function update() {
 
 function tweenOut() {
 	moveOutTween = game.add.tween(emoji).to( { y: 50 }, 600, Phaser.Easing.Elastic.In, true);
-	moveOutTween.onComplete.add(function() { emoji.kill(); }, this);
+	moveOutSplash = game.add.tween(splash).to( { y: 50 }, 600, Phaser.Easing.Elastic.In, true);
+	moveOutTween.onComplete.add(function() { emoji.kill();
+		if (splash.alive) {splash.kill(); } }, this);
 	setTimeout(function () {
 		fadeOutTween = game.add.tween(emoji).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 0, false);
+	if (splash.alive)	{
+		fadeOutSplash = game.add.tween(splash).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 0, false);
+		splash.alive = false
+	}
 	}, 450);
+
 }
 
 function hitRim() {
@@ -266,7 +295,7 @@ function release(pointer) {
 
 		if (end_location[1] < start_location[1]) {
 			var slope = [end_location[0] - start_location[0], end_location[1] - start_location[1]];
-			var x_traj = -1000 * slope[0] / slope[1];
+			var x_traj = -800 * slope[0] / slope[1];
 			launch(x_traj);
 			console.log('slope =', slope)
 			console.log('x_traj =', x_traj)
