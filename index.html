@@ -8,6 +8,7 @@
 
     <title>Dunk The Trump</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
+
     <style type="text/css">
         * {
         	margin: 0;
@@ -196,6 +197,7 @@ function update() {
 			if (current_score > high_score) {
 				high_score = current_score;
 			// 	high_score_text.text = 'High Score\n' + high_score;
+				// Post highscore to Telegram??
 			}
 			current_score = 0;
 			current_score_text.text = '';
@@ -226,6 +228,30 @@ function update() {
 		createBall();
 	}
 
+} // end of update function
+
+function makeTelegramRequest (method, telegramMethod, body) {
+  return new Promise(function (resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.open(method, 'https://api.telegram.org/bot' + telegram_token + '/' + telegramMethod);
+    xhr.onload = function () {
+      if (this.status >= 200 && this.status < 300) {
+        resolve(xhr.response);
+      } else {
+        reject({
+          status: this.status,
+          statusText: xhr.statusText
+        });
+      }
+    };
+    xhr.onerror = function () {
+      reject({
+        status: this.status,
+        statusText: xhr.statusText
+      });
+    };
+    xhr.send(body);
+  });
 }
 
 function tweenOut() {
