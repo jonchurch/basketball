@@ -214,12 +214,14 @@ function update() {
 				score: current_score,
 				user_id: qs.user,
 				chat_id: qs.chat,
-				message_id: qs.message_id
+				message_id: qs.message
 			}
 			if (qs.telegram)	{
 				game.debug.text('qs.telegram true!', game.world.centerX-250, 140)
 					makeRequest('POST', 'setScore', score).then(function(result) {
 				game.debug.text('Promise result:',result, game.world.centerX-100, 160)
+				console.log('result:', result)
+
 				}).catch(function(err){
 					console.log('Uh Oh!:', err)
 				})
