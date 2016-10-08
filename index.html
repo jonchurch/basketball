@@ -208,11 +208,13 @@ function update() {
 				chat_id: qs.chat,
 				message_id: qs.message_id
 			}
-				makeRequest('POST', 'setScore', score).then(function(result) {
+			if (qs.telegram)	{
+					makeRequest('POST', 'setScore', score).then(function(result) {
 					console.log(result)
 				}).catch(function(err){
 					console.log('Uh Oh!:', err)
 				})
+			}
 			}
 			current_score = 0;
 			current_score_text.text = '';
