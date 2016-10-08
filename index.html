@@ -29,6 +29,7 @@ var game = new Phaser.Game(400, 625, Phaser.AUTO, '', { preload: preload, create
 function preload() {
 	// game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
 
+var qs = game.net.getQueryString()
 
 
     game.load.image('ball', 'assets/images/ball.png');
@@ -166,6 +167,8 @@ function create() {
 
 function update() {
 
+	// game.debug.text('Query string user : '+game.net.getQueryString('user'),game.world.centerX-400,80);
+
 	if (ball && ball.body.velocity.y > 0) {
 		toilet_bottom = game.add.sprite(127, 161, 'toilet_bottom');
 		ball.body.collides([collisionGroup], hitRim, this);
@@ -198,6 +201,18 @@ function update() {
 				high_score = current_score;
 			// 	high_score_text.text = 'High Score\n' + high_score;
 				// Post highscore to Telegram??
+
+			var score = {
+				score: current_score,
+				user_id: qs.user,
+				chat_id: qs.chat,
+				message_id: qs.message_id
+			}
+				makeRequest('POST', 'setScore', score).then(function(result) {
+					console.log(result)
+				}).catch(function(err){
+					console.log('Uh Oh!:', err)
+				})
 			}
 			current_score = 0;
 			current_score_text.text = '';
@@ -230,10 +245,10 @@ function update() {
 
 } // end of update function
 
-function makeTelegramRequest (method, telegramMethod, body) {
+function makeRequest (method, telegramMethod, body) {
   return new Promise(function (resolve, reject) {
     var xhr = new XMLHttpRequest();
-    xhr.open(method, 'https://api.telegram.org/bot' + telegram_token + '/' + telegramMethod);
+    xhr.open(method, 'https://score-server-xuvudrxmja.now.sh/' + telegramMethod);
     xhr.onload = function () {
       if (this.status >= 200 && this.status < 300) {
         resolve(xhr.response);
