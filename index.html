@@ -259,7 +259,7 @@ function update() {
 function makeRequest (method, telegramMethod, body) {
   return new Promise(function (resolve, reject) {
     var xhr = new XMLHttpRequest();
-    xhr.open(method, 'https://score-server-xuvudrxmja.now.sh/' + telegramMethod);
+    xhr.open(method, 'https://score-server-vtbrhclggr.now.sh/' + telegramMethod);
     xhr.onload = function () {
       if (this.status >= 200 && this.status < 300) {
         resolve(xhr.response);
