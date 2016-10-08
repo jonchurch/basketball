@@ -162,6 +162,12 @@ function create() {
 	game.input.onDown.add(click, this);
 	game.input.onUp.add(release, this);
 
+	game.debug.text('Query string user : '+game.net.getQueryString().user,game.world.centerX-100,80);
+	game.debug.text('Query string message : '+game.net.getQueryString().message,game.world.centerX-100,100);
+	game.debug.text('Query string chat : '+game.net.getQueryString().chat,game.world.centerX-100,120);
+	game.debug.text('Query string telegram : '+game.net.getQueryString().telegram,game.world.centerX-100,140);
+
+
 	//
 	// var instructions = document.createElement("span");
 	// instructions.innerHTML = "Instructions: Quickly drag the ball to shoot the ball into the hoop!";
@@ -170,7 +176,6 @@ function create() {
 
 function update() {
 
-	// game.debug.text('Query string user : '+game.net.getQueryString('user'),game.world.centerX-400,80);
 
 	if (ball && ball.body.velocity.y > 0) {
 		toilet_bottom = game.add.sprite(127, 161, 'toilet_bottom');
