@@ -95,6 +95,9 @@ var collisionGroup;
 
 function create() {
 
+	qs = game.net.getQueryString()
+
+
 	if (game.device.desktop == false) {
 		// Set Scaling mode to SHOW_ALL to show all the game
 		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
