@@ -262,6 +262,7 @@ function makeRequest (method, telegramMethod, body) {
     var xhr = new XMLHttpRequest();
     xhr.open(method, 'https://score-server-nuyixvmmzi.now.sh/' + telegramMethod);
     // xhr.open(method, 'https://score-server-bynfolxqoq.now.sh/' + telegramMethod);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
     xhr.onload = function () {
       if (this.status >= 200 && this.status < 300) {
         resolve(xhr.response);
@@ -278,7 +279,7 @@ function makeRequest (method, telegramMethod, body) {
         statusText: xhr.statusText
       });
     };
-    xhr.send(body);
+    xhr.send(JSON.stringify(body));
   });
 }
 
