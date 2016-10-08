@@ -218,7 +218,7 @@ function update() {
 			}
 			if (qs.telegram)	{
 					makeRequest('POST', 'setScore', score).then(function(result) {
-					console.log(result)
+				game.debug.text('Promise result:',result, game.world.centerX-100, 160)
 				}).catch(function(err){
 					console.log('Uh Oh!:', err)
 				})
