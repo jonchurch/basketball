@@ -26,11 +26,11 @@
 
 	<script type="text/javascript">
 		// NOTE: Originally 640x1000. Other possible sizes: 512x800, 400x625
-		var game = new Phaser.Game(400, 625, Phaser.WEBGL, '', {
+		var game = new Phaser.Game(400, 625, Phaser.AUTO, '', {
 			preload: preload,
 			create: create,
 			update: update
-		});
+		}, false);
 
 		function preload() {
 			// game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
@@ -106,6 +106,7 @@
 		function create() {
 
 			qs = game.net.getQueryString()
+
 
 
 
