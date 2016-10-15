@@ -30,7 +30,7 @@
 			preload: preload,
 			create: create,
 			update: update
-		});
+		}, false);
 
 		function preload() {
 			// game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
@@ -39,7 +39,7 @@
 
 			game.load.image('ball', 'assets/images/ball.png');
 			game.load.image('hoop', 'assets/images/toilet_full.png');
-			game.load.image('toilet_bottom', 'assets/images/toilet_bottom_squared.png')
+			game.load.image('toilet_bottom', 'assets/images/toilet_bottom_morecropped.png')
 				// game.load.image('hoop', 'assets/images/hoop.png');
 			game.load.image('side rim', 'assets/images/side_rim.png');
 			game.load.image('front rim', 'assets/images/front_rim.png');
@@ -108,6 +108,8 @@
 			qs = game.net.getQueryString()
 
 
+
+
 			if (game.device.desktop == false) {
 				// Set Scaling mode to SHOW_ALL to show all the game
 				game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
@@ -116,6 +118,7 @@
 				game.scale.setMinMax(game.width / 2, game.height / 2, game.width, game.height)
 
 			}
+			// game.stage.smoothed = false
 
 			// Center the game horizontally and veritcally
 			game.scale.pageAlignHorizontally = true
@@ -166,19 +169,19 @@
 			// hoop.add.child(current_score_text)
 			// hoop.add.child(current_best_text)
 			// hoop.add.child(current_best_score_text)
-			left_rim = game.add.sprite(154, 184, 'side rim'); // 241, 296
+			left_rim = game.add.sprite(144, 184, 'side rim'); // 241, 296
 			left_rim.visible = false
-			right_rim = game.add.sprite(253, 184, 'side rim'); // 398, 296
+			right_rim = game.add.sprite(263, 184, 'side rim'); // 398, 296
 			right_rim.visible = false
 
 			game.physics.p2.enable([left_rim, right_rim], false);
 
-			left_rim.body.setCircle(2.5);
+			left_rim.body.setCircle(3);
 			left_rim.body.static = true;
 			left_rim.body.setCollisionGroup(collisionGroup);
 			left_rim.body.collides([collisionGroup]);
 
-			right_rim.body.setCircle(2.5);
+			right_rim.body.setCircle(3);
 			right_rim.body.static = true;
 			right_rim.body.setCollisionGroup(collisionGroup);
 			right_rim.body.collides([collisionGroup]);
@@ -210,7 +213,7 @@
 		function update() {
 
 
-			if (ball && ball.body.velocity.y > 0 && ball.body.y < 300) {
+			if (ball && ball.body.velocity.y > 0 && ball.body.y < 300 && ball.body.x > 150 && ball.body.y < 260) {
 				 if (toilet_bottom === undefined)  {
 					 toilet_bottom = game.add.sprite(127, 161, 'toilet_bottom');
 					 toilet_bottom_group.add(toilet_bottom)
@@ -231,12 +234,12 @@
 					current_score += 1;
 					current_score_text.text = current_score;
 					splash = true
-					splashLeft = game.add.sprite(188, 215, 'splash')
-					splashRight = game.add.sprite(205, 210, 'splash')
+					splashLeft = game.add.sprite(188, 222, 'splash')
+					splashRight = game.add.sprite(205, 222, 'splash')
 					splashLeft.angle += -165
-					splashRight.angle += -90
-					splashLeft.scale.setTo(0.25, 0.25)
-					splashRight.scale.setTo(0.25, 0.25)
+					splashRight.angle += -100
+					splashLeft.scale.setTo(0.5, 0.5)
+					splashRight.scale.setTo(0.5, 0.5)
 					goal = true
 
 					score_sound.play();
@@ -257,9 +260,7 @@
 							message_id: +qs.message
 						}
 						if (qs.telegram) {
-							game.debug.text('qs.telegram true!', game.world.centerX - 250, 140)
 							makeRequest('POST', 'setScore', scoreObj).then(function(result) {
-								game.debug.text('Promise result:', result, game.world.centerX - 100, 160)
 								console.log('result:', result)
 
 							}).catch(function(err) {
@@ -272,20 +273,20 @@
 					current_best_text.text = 'Current Best';
 					current_best_score_text.text = high_score;
 				}
-				emoji = game.add.sprite(175, 100, emojiName);
-				emoji.scale.setTo(0.25, 0.25);
+				emoji = game.add.sprite(165, 70, emojiName);
+				// emoji.scale.setTo(0.85, 0.85);
 				moveInTween = game.add.tween(emoji).from({
 					y: 150
-				}, 500, Phaser.Easing.Elastic.Out, true);
+				}, 300, Phaser.Easing.Elastic.Out, true);
 				fadeInTween = game.add.tween(emoji).from({
 					alpha: 0
 				}, 200, Phaser.Easing.Linear.None, true, 0, 0, false);
 
 					// remove win/lose emoji
 					moveInTween.onComplete.add(tweenOut, this);
-					if (toilet_bottom.visible === true) {
-						toilet_bottom.visible = false
-					}
+					// if (toilet_bottom.visible === true) {
+					// 	toilet_bottom.visible = false
+					// }
 
 				if (splash) {
 					moveInLeftSplash = game.add.tween(splashLeft).from({
