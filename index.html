@@ -176,14 +176,17 @@
 			right_rim.body.setCollisionGroup(collisionGroup);
 			right_rim.body.collides([collisionGroup]);
 
+			toilet_bottom_group = game.add.group()
+
+
 			createBall();
+
 
 			cursors = game.input.keyboard.createCursorKeys();
 
 			game.input.onDown.add(click, this);
 			game.input.onUp.add(release, this);
 
-			toilet_bottom_group = game.add.group()
 
 			// game.debug.text('Query string user : ' + game.net.getQueryString().user, game.world.centerX - 100, 80);
 			// game.debug.text('Query string message : ' + game.net.getQueryString().message, game.world.centerX - 100, 100);
@@ -200,15 +203,15 @@
 		function update() {
 
 
-			if (ball && ball.body.velocity.y > 0) {
+			if (ball && ball.body.velocity.y > 0 && ball.body.y < 300) {
 				 if (toilet_bottom === undefined)  {
 					 toilet_bottom = game.add.sprite(127, 161, 'toilet_bottom');
 					 toilet_bottom_group.add(toilet_bottom)
 
 				 } else {
 					 toilet_bottom.visible = true
-					 toilet_bottom.moveUp()
 				 }
+				toilet_bottom.bringToTop()
 				ball.body.collides([collisionGroup], hitRim, this);
 			}
 
@@ -284,7 +287,7 @@
 				}
 			}
 
-			if (ball && ball.body.y > 300 && goal === true) {
+			if (ball && ball.body.y > 250 && goal === true) {
 				game.physics.p2.gravity.y = 0;
 				ball.kill();
 				createBall();
@@ -380,6 +383,7 @@
 			ball.body.setCircle(60); // NOTE: Goes from 60 to 36
 			ball.launched = false;
 			ball.isBelowHoop = false;
+			toilet_bottom_group.add(ball)
 
 		}
 
