@@ -39,7 +39,7 @@
 
 			game.load.image('ball', 'assets/images/ball.png');
 			game.load.image('hoop', 'assets/images/toilet_full.png');
-			game.load.image('toilet_bottom', 'assets/images/toilet_bottom.png')
+			game.load.image('toilet_bottom', 'assets/images/toilet_bottom_squared.png')
 				// game.load.image('hoop', 'assets/images/hoop.png');
 			game.load.image('side rim', 'assets/images/side_rim.png');
 			game.load.image('front rim', 'assets/images/front_rim.png');
@@ -50,17 +50,20 @@
 			game.load.image('win2', 'assets/images/win2.png');
 			game.load.image('win3', 'assets/images/win3.png');
 			game.load.image('win4', 'assets/images/win4.png');
+			game.load.image('win5', 'assets/images/win5.png');
 			game.load.image('lose0', 'assets/images/lose0.png');
 			game.load.image('lose1', 'assets/images/lose1.png');
 			game.load.image('lose2', 'assets/images/lose2.png');
 			game.load.image('lose3', 'assets/images/lose3.png');
 			game.load.image('lose4', 'assets/images/lose4.png');
+			game.load.image('lose5', 'assets/images/lose5.png');
 
 			game.load.audio('score', 'assets/audio/score.wav');
 			game.load.audio('backboard', 'assets/audio/backboard.wav');
 			game.load.audio('whoosh', 'assets/audio/whoosh.wav');
 			game.load.audio('fail', 'assets/audio/fail.wav');
 			game.load.audio('spawn', 'assets/audio/spawn.wav');
+			game.load.audio('flush', 'assets/audio/flush.wav')
 
 		}
 
@@ -85,7 +88,8 @@
 			backboard,
 			whoosh,
 			fail,
-			spawn;
+			spawn,
+			flush;
 
 		var moveInTween,
 			fadeInTween,
@@ -133,6 +137,7 @@
 			fail = game.add.audio('fail');
 			fail.volume = 0.1;
 			spawn = game.add.audio('spawn');
+			flush = game.add.audio('flush')
 
 			game.stage.backgroundColor = "#ffffff";
 
@@ -220,7 +225,7 @@
 			if (ball && ball.body.velocity.y > 0 && ball.body.y > 188 && !ball.isBelowHoop) {
 				ball.isBelowHoop = true;
 				ball.body.collideWorldBounds = false;
-				var rand = Math.floor(Math.random() * 5);
+				var rand = Math.floor(Math.random() * 6);
 				if (ball.body.x > 151 && ball.body.x < 249) {
 					emojiName = "win" + rand;
 					current_score += 1;
@@ -235,6 +240,7 @@
 					goal = true
 
 					score_sound.play();
+					flush.play()
 				} else {
 					splash = false
 					emojiName = "lose" + rand;
@@ -266,7 +272,7 @@
 					current_best_text.text = 'Current Best';
 					current_best_score_text.text = high_score;
 				}
-				emoji = game.add.sprite(180, 100, emojiName);
+				emoji = game.add.sprite(175, 100, emojiName);
 				emoji.scale.setTo(0.25, 0.25);
 				moveInTween = game.add.tween(emoji).from({
 					y: 150
@@ -366,12 +372,15 @@
 					alpha: 0
 				}, 300, Phaser.Easing.Linear.None, true, 0, 0, false);
 				if (splash) {
-					fadeOutSplash = game.add.tween(splash).to({
+					fadeOutSplashLeft = game.add.tween(splashLeft).to({
 						alpha: 0
-					}, 300, Phaser.Easing.Linear.None, true, 0, 0, false);
+					}, 200, Phaser.Easing.Linear.None, true, 0, 0, false);
+					fadeOutSplashRight = game.add.tween(splashRight).to({
+						alpha: 0
+					}, 200, Phaser.Easing.Linear.None, true, 0, 0, false);
 					splash.alive = false
 				}
-			}, 450);
+			}, 300);
 
 		}
 
