@@ -162,7 +162,9 @@
 			// hoop.add.child(current_best_text)
 			// hoop.add.child(current_best_score_text)
 			left_rim = game.add.sprite(154, 184, 'side rim'); // 241, 296
+			left_rim.visible = false
 			right_rim = game.add.sprite(253, 184, 'side rim'); // 398, 296
+			right_rim.visible = false
 
 			game.physics.p2.enable([left_rim, right_rim], false);
 
