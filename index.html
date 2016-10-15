@@ -30,7 +30,7 @@
 			preload: preload,
 			create: create,
 			update: update
-		});
+		}, false);
 
 		function preload() {
 			// game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
@@ -106,6 +106,8 @@
 		function create() {
 
 			qs = game.net.getQueryString()
+
+
 
 
 			if (game.device.desktop == false) {
