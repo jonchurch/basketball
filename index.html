@@ -349,17 +349,17 @@
 		function tweenOut() {
 			moveOutTween = game.add.tween(emoji).to({
 				y: 50
-			}, 600, Phaser.Easing.Elastic.In, true);
+			}, 300, Phaser.Easing.Elastic.In, true);
 			if (splash) {
 				moveOutRightSplash = game.add.tween(splashRight).to({
 					y: 50
-				}, 600, Phaser.Easing.Elastic.In, true);
+				}, 300, Phaser.Easing.Elastic.In, true);
 				moveOutRightSplash.onComplete.add(function() {
 					splashRight.kill();
 			}, this)
 				moveOutLeftSplash = game.add.tween(splashLeft).to({
 					y: 50
-				}, 600, Phaser.Easing.Elastic.In, true);
+				}, 300, Phaser.Easing.Elastic.In, true);
 				moveOutLeftSplash.onComplete.add(function() {
 					splashLeft.kill();
 			}, this)
