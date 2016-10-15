@@ -223,10 +223,13 @@
 					emojiName = "win" + rand;
 					current_score += 1;
 					current_score_text.text = current_score;
-					splash = game.add.sprite(200, 210, 'splash')
-					splash.angle += -90
-					splash.scale.setTo(0.25, 0.25)
-					// splash.alive = true
+					splash = true
+					splashLeft = game.add.sprite(188, 215, 'splash')
+					splashRight = game.add.sprite(205, 210, 'splash')
+					splashLeft.angle += -165
+					splashRight.angle += -90
+					splashLeft.scale.setTo(0.25, 0.25)
+					splashRight.scale.setTo(0.25, 0.25)
 					goal = true
 
 					score_sound.play();
@@ -277,10 +280,16 @@
 					}
 
 				if (splash) {
-					moveInSplash = game.add.tween(splash).from({
+					moveInLeftSplash = game.add.tween(splashLeft).from({
 						y: 150
 					}, 500, Phaser.Easing.Elastic.Out, true);
-					fadeInSplash = game.add.tween(splash).from({
+					fadeInLeftSplash = game.add.tween(splashLeft).from({
+						alpha: 0
+					}, 200, Phaser.Easing.Linear.None, true, 0, 0, false);
+					moveInRightSplash = game.add.tween(splashRight).from({
+						y: 150
+					}, 500, Phaser.Easing.Elastic.Out, true);
+					fadeInRightSplash = game.add.tween(splashRight).from({
 						alpha: 0
 					}, 200, Phaser.Easing.Linear.None, true, 0, 0, false);
 
@@ -333,11 +342,17 @@
 				y: 50
 			}, 600, Phaser.Easing.Elastic.In, true);
 			if (splash) {
-				moveOutSplash = game.add.tween(splash).to({
+				moveOutRightSplash = game.add.tween(splashRight).to({
 					y: 50
 				}, 600, Phaser.Easing.Elastic.In, true);
-				moveOutSplash.onComplete.add(function() {
-					splash.kill();
+				moveOutRightSplash.onComplete.add(function() {
+					splashRight.kill();
+			}, this)
+				moveOutLeftSplash = game.add.tween(splashLeft).to({
+					y: 50
+				}, 600, Phaser.Easing.Elastic.In, true);
+				moveOutLeftSplash.onComplete.add(function() {
+					splashLeft.kill();
 			}, this)
 		}
 			moveOutTween.onComplete.add(function() {
