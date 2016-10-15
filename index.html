@@ -39,7 +39,7 @@
 
 			game.load.image('ball', 'assets/images/ball.png');
 			game.load.image('hoop', 'assets/images/toilet_full.png');
-			game.load.image('toilet_bottom', 'assets/images/toilet_bottom_squared.png')
+			game.load.image('toilet_bottom', 'assets/images/toilet_bottom_morecropped.png')
 				// game.load.image('hoop', 'assets/images/hoop.png');
 			game.load.image('side rim', 'assets/images/side_rim.png');
 			game.load.image('front rim', 'assets/images/front_rim.png');
@@ -173,12 +173,12 @@
 
 			game.physics.p2.enable([left_rim, right_rim], false);
 
-			left_rim.body.setCircle(2.5);
+			left_rim.body.setCircle(3);
 			left_rim.body.static = true;
 			left_rim.body.setCollisionGroup(collisionGroup);
 			left_rim.body.collides([collisionGroup]);
 
-			right_rim.body.setCircle(2.5);
+			right_rim.body.setCircle(3);
 			right_rim.body.static = true;
 			right_rim.body.setCollisionGroup(collisionGroup);
 			right_rim.body.collides([collisionGroup]);
@@ -210,7 +210,7 @@
 		function update() {
 
 
-			if (ball && ball.body.velocity.y > 0 && ball.body.y < 300) {
+			if (ball && ball.body.velocity.y > 0 && ball.body.y < 300 && ball.body.x > 150 && ball.body.y < 260) {
 				 if (toilet_bottom === undefined)  {
 					 toilet_bottom = game.add.sprite(127, 161, 'toilet_bottom');
 					 toilet_bottom_group.add(toilet_bottom)
@@ -283,9 +283,9 @@
 
 					// remove win/lose emoji
 					moveInTween.onComplete.add(tweenOut, this);
-					if (toilet_bottom.visible === true) {
-						toilet_bottom.visible = false
-					}
+					// if (toilet_bottom.visible === true) {
+					// 	toilet_bottom.visible = false
+					// }
 
 				if (splash) {
 					moveInLeftSplash = game.add.tween(splashLeft).from({
