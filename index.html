@@ -260,7 +260,6 @@
 							message_id: +qs.message
 						}
 						if (qs.telegram) {
-							game.debug.text('qs.telegram true!', game.world.centerX - 250, 140)
 							makeRequest('POST', 'setScore', scoreObj).then(function(result) {
 								game.debug.text('Promise result:', result, game.world.centerX - 100, 160)
 								console.log('result:', result)
