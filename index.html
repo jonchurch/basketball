@@ -261,7 +261,7 @@
 						}
 						if (qs.telegram) {
 							makeRequest('POST', 'setScore', scoreObj).then(function(result) {
-								game.debug.text('Promise result:', result, game.world.centerX - 100, 160)
+								game.debug.text('Promise result:' + result, game.world.centerX - 100, 160)
 								console.log('result:', result)
 
 							}).catch(function(err) {
@@ -274,8 +274,9 @@
 					current_best_text.text = 'Current Best';
 					current_best_score_text.text = high_score;
 				}
-				emoji = game.add.sprite(170, 90, emojiName);
-				emoji.scale.setTo(0.9, 0.9);
+				game.debug.text('emoji 85!', game.world.centerX - 100, 400)
+				emoji = game.add.sprite(165, 80, emojiName);
+				emoji.scale.setTo(0.85, 0.85);
 				moveInTween = game.add.tween(emoji).from({
 					y: 150
 				}, 500, Phaser.Easing.Elastic.Out, true);
