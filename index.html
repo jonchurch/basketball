@@ -277,7 +277,7 @@
 				// emoji.scale.setTo(0.85, 0.85);
 				moveInTween = game.add.tween(emoji).from({
 					y: 150
-				}, 500, Phaser.Easing.Elastic.Out, true);
+				}, 300, Phaser.Easing.Elastic.Out, true);
 				fadeInTween = game.add.tween(emoji).from({
 					alpha: 0
 				}, 200, Phaser.Easing.Linear.None, true, 0, 0, false);
@@ -349,17 +349,17 @@
 		function tweenOut() {
 			moveOutTween = game.add.tween(emoji).to({
 				y: 50
-			}, 300, Phaser.Easing.Elastic.In, true);
+			}, 600, Phaser.Easing.Elastic.In, true);
 			if (splash) {
 				moveOutRightSplash = game.add.tween(splashRight).to({
 					y: 50
-				}, 300, Phaser.Easing.Elastic.In, true);
+				}, 600, Phaser.Easing.Elastic.In, true);
 				moveOutRightSplash.onComplete.add(function() {
 					splashRight.kill();
 			}, this)
 				moveOutLeftSplash = game.add.tween(splashLeft).to({
 					y: 50
-				}, 300, Phaser.Easing.Elastic.In, true);
+				}, 600, Phaser.Easing.Elastic.In, true);
 				moveOutLeftSplash.onComplete.add(function() {
 					splashLeft.kill();
 			}, this)
