@@ -238,8 +238,8 @@
 					splashRight = game.add.sprite(205, 210, 'splash')
 					splashLeft.angle += -165
 					splashRight.angle += -100
-					splashLeft.scale.setTo(0.25, 0.25)
-					splashRight.scale.setTo(0.25, 0.25)
+					splashLeft.scale.setTo(0.75, 0.75)
+					splashRight.scale.setTo(0.75, 0.75)
 					goal = true
 
 					score_sound.play();
@@ -276,7 +276,7 @@
 					current_best_score_text.text = high_score;
 				}
 				emoji = game.add.sprite(170, 90, emojiName);
-				// emoji.scale.setTo(0.75, 0.75);
+				emoji.scale.setTo(0.75, 0.75);
 				moveInTween = game.add.tween(emoji).from({
 					y: 150
 				}, 500, Phaser.Easing.Elastic.Out, true);
