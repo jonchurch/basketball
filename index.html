@@ -26,6 +26,7 @@
 
 	<script type="text/javascript">
 		// NOTE: Originally 640x1000. Other possible sizes: 512x800, 400x625
+
 		var game = new Phaser.Game(400, 625, Phaser.AUTO, '', {
 			preload: preload,
 			create: create,
@@ -33,17 +34,12 @@
 		}, false);
 
 		function preload() {
-			// game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
 
 
-
-			// game.load.image('ball', 'assets/images/ball.png');
 			game.load.spritesheet('ball', 'assets/images/derp_spritesheet.png', 120, 148)
 			game.load.image('hoop', 'assets/images/toilet_full.png');
 			game.load.image('toilet_bottom', 'assets/images/toilet_bottom_morecropped.png')
-				// game.load.image('hoop', 'assets/images/hoop.png');
 			game.load.image('side rim', 'assets/images/side_rim.png');
-			game.load.image('front rim', 'assets/images/front_rim.png');
 
 			game.load.image('splash', 'assets/images/splash.png');
 			game.load.image('win0', 'assets/images/win0.png');
@@ -59,12 +55,7 @@
 			game.load.image('lose4', 'assets/images/lose4.png');
 			game.load.image('lose5', 'assets/images/lose5.png');
 
-			game.load.audio('score', 'assets/audio/score.wav');
-			game.load.audio('backboard', 'assets/audio/backboard.wav');
-			game.load.audio('whoosh', 'assets/audio/whoosh.wav');
-			game.load.audio('fail', 'assets/audio/fail.wav');
-			game.load.audio('spawn', 'assets/audio/spawn.wav');
-			game.load.audio('flush', 'assets/audio/flush.wav')
+			game.load.audio('sfx', ['assets/audio/sfx.m4a', 'assets/audio/sfx.ogg', 'assets/audio/sfx.wav', 'assets/audio/sfx.mp3'])
 
 		}
 
@@ -75,7 +66,6 @@
 			left_rim,
 			right_rim,
 			ball,
-			front_rim,
 			toilet_bottom,
 			current_score = 0,
 			current_score_text,
@@ -85,12 +75,7 @@
 			twitter_link,
 			toilet_bottom_group;
 
-		var score_sound,
-			backboard,
-			whoosh,
-			fail,
-			spawn,
-			flush;
+		var sfx;
 
 		var moveInTween,
 			fadeInTween,
@@ -134,6 +119,16 @@
 
 			collisionGroup = game.physics.p2.createCollisionGroup();
 
+			sfx = game.add.audio('sfx')
+			sfx.allowMultiple = true;
+
+			sfx.addMarker('score', 7, 1)
+			sfx.addMarker('backboard', 0, 1)
+			sfx.addMarker('whoosh', 11, 1)
+			sfx.addMarker('fail', 2, 1)
+			sfx.addMarker('spawn', 9, 0.75)
+			sfx.addMarker('flush', 4, 1.25)
+
 			score_sound = game.add.audio('score');
 			backboard = game.add.audio('backboard');
 			backboard.volume = 0.5;
@@ -164,12 +159,8 @@
 				fill: '#00e6e6',
 				align: 'center'
 			}); // 300, 500
-			// twitter_link = game.add.text(155, 410, '@jonchurch', {font: 'Arial', fontSize: '16px', fill: 'blue', align: 'center'} )
 
 			hoop = game.add.sprite(127, 0, 'hoop'); // 141, 100
-			// hoop.add.child(current_score_text)
-			// hoop.add.child(current_best_text)
-			// hoop.add.child(current_best_score_text)
 			left_rim = game.add.sprite(144, 184, 'side rim'); // 241, 296
 			left_rim.visible = false
 			right_rim = game.add.sprite(263, 184, 'side rim'); // 398, 296
@@ -198,17 +189,6 @@
 			game.input.onDown.add(click, this);
 			game.input.onUp.add(release, this);
 
-
-			// game.debug.text('Query string user : ' + game.net.getQueryString().user, game.world.centerX - 100, 80);
-			// game.debug.text('Query string message : ' + game.net.getQueryString().message, game.world.centerX - 100, 100);
-			// game.debug.text('Query string chat : ' + game.net.getQueryString().chat, game.world.centerX - 100, 120);
-			// game.debug.text('Query string telegram : ' + game.net.getQueryString().telegram, game.world.centerX - 100, 140);
-
-
-			//
-			// var instructions = document.createElement("span");
-			// instructions.innerHTML = "Instructions: Quickly drag the ball to shoot the ball into the hoop!";
-			// document.body.appendChild(instructions);
 		}
 
 		function update() {
@@ -230,7 +210,7 @@
 				ball.isBelowHoop = true;
 				ball.body.collideWorldBounds = false;
 				var rand = Math.floor(Math.random() * 6);
-				if (ball.body.x > 151 && ball.body.x < 249) {
+				if (ball.body.x > 151 && ball.body.x < 251) {
 					emojiName = "win" + rand;
 					current_score += 1;
 					current_score_text.text = current_score;
@@ -243,12 +223,12 @@
 					splashRight.scale.setTo(0.5, 0.5)
 					goal = true
 
-					score_sound.play();
-					flush.play()
+					sfx.play('score');
+					sfx.play('flush')
 				} else {
 					splash = false
 					emojiName = "lose" + rand;
-					fail.play();
+					sfx.play('fail');
 					if (current_score > high_score) {
 						high_score = current_score;
 						// 	high_score_text.text = 'High Score\n' + high_score;
@@ -311,7 +291,6 @@
 				ball.kill();
 				createBall();
 				goal = false
-				console.log('KILL IT!')
 			}
 			if (ball && ball.body.y > 1200) {
 				game.physics.p2.gravity.y = 0;
@@ -388,7 +367,7 @@
 
 		function hitRim() {
 
-			backboard.play();
+			sfx.play('backboard');
 
 		}
 
@@ -400,7 +379,7 @@
 			} else {
 				xpos = 60 + Math.random() * 280;
 			}
-			spawn.play();
+			sfx.play('spawn');
 			ball = game.add.sprite(xpos, 547, 'ball');
 			ball.frame = 0
 			// ball = game.add.sprite(340, 547, 'ball');
@@ -447,9 +426,6 @@
 					var slope = [end_location[0] - start_location[0], end_location[1] - start_location[1]];
 					var x_traj = -800 * slope[0] / slope[1];
 					launch(x_traj);
-					console.log('slope =', slope)
-					console.log('x_traj =', x_traj)
-					console.log('slope =', slope)
 				} else {
 					ball.frame = 0
 				}
@@ -476,7 +452,7 @@
 				ball.body.velocity.x = x_traj;
 				ball.body.velocity.y = -1750;
 				ball.body.rotateRight(x_traj / 3);
-				whoosh.play();
+				sfx.play('whoosh');
 			}
 
 		}
