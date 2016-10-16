@@ -37,7 +37,8 @@
 
 
 
-			game.load.image('ball', 'assets/images/ball.png');
+			// game.load.image('ball', 'assets/images/ball.png');
+			game.load.spritesheet('ball', 'assets/images/derp_spritesheet.png', 120, 148)
 			game.load.image('hoop', 'assets/images/toilet_full.png');
 			game.load.image('toilet_bottom', 'assets/images/toilet_bottom_morecropped.png')
 				// game.load.image('hoop', 'assets/images/hoop.png');
@@ -401,6 +402,7 @@
 			}
 			spawn.play();
 			ball = game.add.sprite(xpos, 547, 'ball');
+			ball.frame = 0
 			// ball = game.add.sprite(340, 547, 'ball');
 			game.add.tween(ball.scale).from({
 				x: 0.7,
@@ -423,12 +425,14 @@
 
 			var bodies = game.physics.p2.hitTest(pointer.position, [ball.body]);
 			if (bodies.length) {
+				ball.frame = 1
 				start_location = [pointer.x, pointer.y];
 				isDown = true;
 				location_interval = setInterval(function() {
 					start_location = [pointer.x, pointer.y];
 				}.bind(this), 100);
 			}
+
 
 		}
 
@@ -446,6 +450,8 @@
 					console.log('slope =', slope)
 					console.log('x_traj =', x_traj)
 					console.log('slope =', slope)
+				} else {
+					ball.frame = 0
 				}
 			}
 
