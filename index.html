@@ -26,6 +26,7 @@
 
 	<script type="text/javascript">
 		// NOTE: Originally 640x1000. Other possible sizes: 512x800, 400x625
+
 		var game = new Phaser.Game(400, 625, Phaser.AUTO, '', {
 			preload: preload,
 			create: create,
@@ -33,11 +34,9 @@
 		}, false);
 
 		function preload() {
-			// game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
 
+			window.PhaserGlobal = { disableWebAudio: true };
 
-
-			// game.load.image('ball', 'assets/images/ball.png');
 			game.load.spritesheet('ball', 'assets/images/derp_spritesheet.png', 120, 148)
 			game.load.image('hoop', 'assets/images/toilet_full.png');
 			game.load.image('toilet_bottom', 'assets/images/toilet_bottom_morecropped.png')
@@ -60,13 +59,6 @@
 			game.load.image('lose5', 'assets/images/lose5.png');
 
 			game.load.audio('sfx', ['assets/audio/sfx.m4a', 'assets/audio/sfx.ogg', 'assets/audio/sfx.wav', 'assets/audio/sfx.mp3'])
-			//
-			// game.load.audio('score', 'assets/audio/score.wav');
-			// game.load.audio('backboard', 'assets/audio/backboard.wav');
-			// game.load.audio('whoosh', 'assets/audio/whoosh.wav');
-			// game.load.audio('fail', 'assets/audio/fail.wav');
-			// game.load.audio('spawn', 'assets/audio/spawn.wav');
-			// game.load.audio('flush', 'assets/audio/flush.wav')
 
 		}
 
