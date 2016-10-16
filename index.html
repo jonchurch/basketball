@@ -40,7 +40,6 @@
 			game.load.image('hoop', 'assets/images/toilet_full.png');
 			game.load.image('toilet_bottom', 'assets/images/toilet_bottom_morecropped.png')
 			game.load.image('side rim', 'assets/images/side_rim.png');
-			game.load.image('front rim', 'assets/images/front_rim.png');
 
 			game.load.image('splash', 'assets/images/splash.png');
 			game.load.image('win0', 'assets/images/win0.png');
@@ -67,7 +66,6 @@
 			left_rim,
 			right_rim,
 			ball,
-			front_rim,
 			toilet_bottom,
 			current_score = 0,
 			current_score_text,
@@ -161,7 +159,6 @@
 				fill: '#00e6e6',
 				align: 'center'
 			}); // 300, 500
-			twitter_link = game.add.text(155, 410, '@jonchurch', {font: 'Arial', fontSize: '16px', fill: 'blue', align: 'center'} )
 
 			hoop = game.add.sprite(127, 0, 'hoop'); // 141, 100
 			left_rim = game.add.sprite(144, 184, 'side rim'); // 241, 296
@@ -192,17 +189,6 @@
 			game.input.onDown.add(click, this);
 			game.input.onUp.add(release, this);
 
-
-			// game.debug.text('Query string user : ' + game.net.getQueryString().user, game.world.centerX - 100, 80);
-			// game.debug.text('Query string message : ' + game.net.getQueryString().message, game.world.centerX - 100, 100);
-			// game.debug.text('Query string chat : ' + game.net.getQueryString().chat, game.world.centerX - 100, 120);
-			// game.debug.text('Query string telegram : ' + game.net.getQueryString().telegram, game.world.centerX - 100, 140);
-
-
-			//
-			// var instructions = document.createElement("span");
-			// instructions.innerHTML = "Instructions: Quickly drag the ball to shoot the ball into the hoop!";
-			// document.body.appendChild(instructions);
 		}
 
 		function update() {
@@ -305,7 +291,6 @@
 				ball.kill();
 				createBall();
 				goal = false
-				console.log('KILL IT!')
 			}
 			if (ball && ball.body.y > 1200) {
 				game.physics.p2.gravity.y = 0;
@@ -441,9 +426,6 @@
 					var slope = [end_location[0] - start_location[0], end_location[1] - start_location[1]];
 					var x_traj = -800 * slope[0] / slope[1];
 					launch(x_traj);
-					console.log('slope =', slope)
-					console.log('x_traj =', x_traj)
-					console.log('slope =', slope)
 				} else {
 					ball.frame = 0
 				}
