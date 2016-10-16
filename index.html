@@ -73,7 +73,9 @@
 			high_score_text,
 			current_best_text,
 			twitter_link,
-			toilet_bottom_group;
+			toilet_bottom_group,
+			goal_group,
+			movingGoal;
 
 		var sfx;
 
@@ -85,7 +87,10 @@
 			emoji,
 			emojiName,
 			moveInSplash,
-			fadeInSplash;
+			fadeInSplash,
+			moveGoalLeft,
+			moveGoalRight,
+			moveTimer;
 
 		var collisionGroup;
 
@@ -162,21 +167,29 @@
 
 			hoop = game.add.sprite(127, 0, 'hoop'); // 141, 100
 			left_rim = game.add.sprite(144, 184, 'side rim'); // 241, 296
-			left_rim.visible = false
+			// left_rim.visible = false
 			right_rim = game.add.sprite(263, 184, 'side rim'); // 398, 296
-			right_rim.visible = false
+			// right_rim.visible = false
 
 			game.physics.p2.enable([left_rim, right_rim], false);
 
 			left_rim.body.setCircle(3);
-			left_rim.body.static = true;
+			// left_rim.body.static = true;
 			left_rim.body.setCollisionGroup(collisionGroup);
 			left_rim.body.collides([collisionGroup]);
+			left_rim.body.kinematic = true
 
 			right_rim.body.setCircle(3);
-			right_rim.body.static = true;
+			// right_rim.body.static = true;
 			right_rim.body.setCollisionGroup(collisionGroup);
 			right_rim.body.collides([collisionGroup]);
+			right_rim.body.kinematic = true
+
+			goal_group = game.add.group()
+			goal_group.add(hoop)
+			// goal_group.add(toilet_bottom_group)
+			goal_group.add(right_rim)
+			goal_group.add(left_rim)
 
 			toilet_bottom_group = game.add.group()
 
@@ -193,15 +206,39 @@
 
 		function update() {
 
+			if (current_score >= 3) {
+				// console.log('Score true!')
+				if (movingGoal === false) {
+					movingGoal = true
+				// moveTimer =	game.time.events.loop(Phaser.Timer.SECOND * 3, switchDirections, this);
+					goal_group.forEachAlive(function(sprite) {
+						game.add.tween(sprite).to({ x: 0}, 3000, 'Linear', true, null, 0, false).chain(game.add.tween(sprite).to({ x: 257}, 6000, 'Linear', false, null, -1, true) )
+						if (sprite.body) {
+							sprite.body.velocity.x = -40
+						}
 
-			if (ball && ball.body.velocity.y > 0 && ball.body.y < 300 && ball.body.x > 150 && ball.body.y < 260) {
-				 if (toilet_bottom === undefined)  {
-					 toilet_bottom = game.add.sprite(127, 161, 'toilet_bottom');
-					 toilet_bottom_group.add(toilet_bottom)
+					})
+					game.add.tween(toilet_bottom).to({ x: 0}, 3000, 'Linear', true, null, 0, false).chain(game.add.tween(toilet_bottom).to({x: 257}, 6000, 'Linear', false, null, -1, true))
 
-				 } else {
-					 toilet_bottom.visible = true
-				 }
+				} else {
+					if (left_rim.body.x <= 10 || right_rim.body.x >= 256) {
+						switchDirections()
+					}
+				}
+				// resetGoal() to move it back to center
+
+			}
+
+
+			if (ball && ball.body.velocity.y > 0 && ball.body.y < 300 && ball.body.x > 150 && ball.body.y < 260 && !ball.isBelowHoop) {
+				if (toilet_bottom === undefined) {
+					toilet_bottom = game.add.sprite(127, 161, 'toilet_bottom');
+					toilet_bottom_group.add(toilet_bottom)
+						//  goal_group.add(toilet_bottom)
+
+				} else {
+					toilet_bottom.visible = true
+				}
 				toilet_bottom.bringToTop()
 				ball.body.collides([collisionGroup], hitRim, this);
 			}
@@ -263,11 +300,11 @@
 					alpha: 0
 				}, 200, Phaser.Easing.Linear.None, true, 0, 0, false);
 
-					// remove win/lose emoji
-					moveInTween.onComplete.add(tweenOut, this);
-					// if (toilet_bottom.visible === true) {
-					// 	toilet_bottom.visible = false
-					// }
+				// remove win/lose emoji
+				moveInTween.onComplete.add(tweenOut, this);
+				// if (toilet_bottom.visible === true) {
+				// 	toilet_bottom.visible = false
+				// }
 
 				if (splash) {
 					moveInLeftSplash = game.add.tween(splashLeft).from({
@@ -299,6 +336,11 @@
 			}
 
 		} // end of update function
+
+		function switchDirections() {
+			left_rim.body.velocity.x =  left_rim.body.velocity.x * -1
+			right_rim.body.velocity.x = right_rim.body.velocity.x * -1
+		}
 
 		function makeRequest(method, telegramMethod, body) {
 			return new Promise(function(resolve, reject) {
@@ -336,14 +378,14 @@
 				}, 600, Phaser.Easing.Elastic.In, true);
 				moveOutRightSplash.onComplete.add(function() {
 					splashRight.kill();
-			}, this)
+				}, this)
 				moveOutLeftSplash = game.add.tween(splashLeft).to({
 					y: 50
 				}, 600, Phaser.Easing.Elastic.In, true);
 				moveOutLeftSplash.onComplete.add(function() {
 					splashLeft.kill();
-			}, this)
-		}
+				}, this)
+			}
 			moveOutTween.onComplete.add(function() {
 				emoji.kill();
 
@@ -372,7 +414,7 @@
 		}
 
 		function createBall() {
-
+			movingGoal = false
 			var xpos;
 			if (current_score === 0) {
 				xpos = 200;
@@ -382,7 +424,7 @@
 			sfx.play('spawn');
 			ball = game.add.sprite(xpos, 547, 'ball');
 			ball.frame = 0
-			// ball = game.add.sprite(340, 547, 'ball');
+				// ball = game.add.sprite(340, 547, 'ball');
 			game.add.tween(ball.scale).from({
 				x: 0.7,
 				y: 0.7
