@@ -210,7 +210,7 @@
 				ball.isBelowHoop = true;
 				ball.body.collideWorldBounds = false;
 				var rand = Math.floor(Math.random() * 6);
-				if (ball.body.x > 151 && ball.body.x < 249) {
+				if (ball.body.x > 151 && ball.body.x < 251) {
 					emojiName = "win" + rand;
 					current_score += 1;
 					current_score_text.text = current_score;
@@ -249,7 +249,7 @@
 							})
 						}
 					}
-					current_ = 0;
+					current_score = 0;
 					current_score_text.text = '';
 					current_best_text.text = 'Current Best';
 					current_best_score_text.text = high_score;
