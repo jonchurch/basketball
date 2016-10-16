@@ -39,7 +39,6 @@
 			game.load.spritesheet('ball', 'assets/images/derp_spritesheet.png', 120, 148)
 			game.load.image('hoop', 'assets/images/toilet_full.png');
 			game.load.image('toilet_bottom', 'assets/images/toilet_bottom_morecropped.png')
-				// game.load.image('hoop', 'assets/images/hoop.png');
 			game.load.image('side rim', 'assets/images/side_rim.png');
 			game.load.image('front rim', 'assets/images/front_rim.png');
 
@@ -125,7 +124,7 @@
 			sfx = game.add.audio('sfx')
 			sfx.allowMultiple = true;
 
-			sfx.addMarker('score', 6, 1)
+			sfx.addMarker('score', 7, 1)
 			sfx.addMarker('backboard', 0, 1)
 			sfx.addMarker('whoosh', 11, 1)
 			sfx.addMarker('fail', 2, 1)
@@ -162,12 +161,9 @@
 				fill: '#00e6e6',
 				align: 'center'
 			}); // 300, 500
-			// twitter_link = game.add.text(155, 410, '@jonchurch', {font: 'Arial', fontSize: '16px', fill: 'blue', align: 'center'} )
+			twitter_link = game.add.text(155, 410, '@jonchurch', {font: 'Arial', fontSize: '16px', fill: 'blue', align: 'center'} )
 
 			hoop = game.add.sprite(127, 0, 'hoop'); // 141, 100
-			// hoop.add.child(current_score_text)
-			// hoop.add.child(current_best_text)
-			// hoop.add.child(current_best_score_text)
 			left_rim = game.add.sprite(144, 184, 'side rim'); // 241, 296
 			left_rim.visible = false
 			right_rim = game.add.sprite(263, 184, 'side rim'); // 398, 296
@@ -267,7 +263,7 @@
 							})
 						}
 					}
-					current_score = 0;
+					current_ = 0;
 					current_score_text.text = '';
 					current_best_text.text = 'Current Best';
 					current_best_score_text.text = high_score;
