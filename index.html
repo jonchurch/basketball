@@ -75,7 +75,8 @@
 			twitter_link,
 			toilet_bottom_group,
 			goal_group,
-			movingGoal;
+			movingGoal,
+			firstSwitch = false;
 
 		var sfx;
 
@@ -90,7 +91,9 @@
 			fadeInSplash,
 			moveGoalLeft,
 			moveGoalRight,
-			moveTimer;
+			tweenGroup,
+			hoopTween,
+			toiletBottomTween;
 
 		var collisionGroup;
 
@@ -168,7 +171,7 @@
 			hoop = game.add.sprite(127, 0, 'hoop'); // 141, 100
 			left_rim = game.add.sprite(144, 184, 'side rim'); // 241, 296
 			// left_rim.visible = false
-			right_rim = game.add.sprite(263, 184, 'side rim'); // 398, 296
+			right_rim = game.add.sprite(253, 184, 'side rim'); // 398, 296
 			// right_rim.visible = false
 
 			game.physics.p2.enable([left_rim, right_rim], false);
@@ -193,6 +196,8 @@
 
 			toilet_bottom_group = game.add.group()
 
+			tweenGroup = game.add.group()
+
 
 			createBall();
 
@@ -210,18 +215,22 @@
 				// console.log('Score true!')
 				if (movingGoal === false) {
 					movingGoal = true
-				// moveTimer =	game.time.events.loop(Phaser.Timer.SECOND * 3, switchDirections, this);
-					goal_group.forEachAlive(function(sprite) {
-						game.add.tween(sprite).to({ x: 0}, 3000, 'Linear', true, null, 0, false).chain(game.add.tween(sprite).to({ x: 257}, 6000, 'Linear', false, null, -1, true) )
-						if (sprite.body) {
-							sprite.body.velocity.x = -40
-						}
+					hoopTween = game.add.tween(hoop).to({ x: 0}, 3000, 'Linear', true, null, 0, false).chain(game.add.tween(hoop).to({ x: 257}, 6000, 'Linear', false, null, -1, true))
 
-					})
-					game.add.tween(toilet_bottom).to({ x: 0}, 3000, 'Linear', true, null, 0, false).chain(game.add.tween(toilet_bottom).to({x: 257}, 6000, 'Linear', false, null, -1, true))
+					left_rim.body.velocity.x = -43
+					right_rim.body.velocity.x = -43
+
+					toiletBottomTween = game.add.tween(toilet_bottom).to({ x: 0}, 3000, 'Linear', true, null, 0, false).chain(game.add.tween(toilet_bottom).to({x: 257}, 6000, 'Linear', false, null, -1, true))
+					firstSwitch = true
 
 				} else {
-					if (left_rim.body.x <= 10 || right_rim.body.x >= 256) {
+
+					if (hoop.x === 0 || hoop.x === 257) {
+							console.log('Reached an edge!')
+							if (firstSwitch) {
+								firstSwitch = false
+								return
+							}
 						switchDirections()
 					}
 				}
@@ -287,6 +296,11 @@
 						}
 					}
 					current_score = 0;
+
+					if (movingGoal) {
+							resetGoal()
+							movingGoal = false
+					}
 					current_score_text.text = '';
 					current_best_text.text = 'Current Best';
 					current_best_score_text.text = high_score;
@@ -302,9 +316,6 @@
 
 				// remove win/lose emoji
 				moveInTween.onComplete.add(tweenOut, this);
-				// if (toilet_bottom.visible === true) {
-				// 	toilet_bottom.visible = false
-				// }
 
 				if (splash) {
 					moveInLeftSplash = game.add.tween(splashLeft).from({
@@ -337,9 +348,29 @@
 
 		} // end of update function
 
+		function resetGoal() {
+			hoopTween.stop()
+			toiletBottomTween.stop()
+			left_rim.body.velocity.x = 0
+			right_rim.body.velocity.x = 0
+			hoop.reset(127, 0)
+			left_rim.reset(144, 184)
+			right_rim.reset(253, 184)
+			toilet_bottom.reset(127, 161)
+
+						// hoop = game.add.sprite(127, 0, 'hoop'); // 141, 100
+						// left_rim = game.add.sprite(144, 184, 'side rim'); // 241, 296
+						// right_rim = game.add.sprite(253, 184, 'side rim'); // 398, 296
+						// toilet_bottom = game.add.sprite(127, 161, 'toilet_bottom');
+
+
+		}
+
 		function switchDirections() {
+			console.log('Switching! New velocity is left: ' + left_rim.body.velocity.x * -1 + ' right: ' + right_rim.body.velocity.x * -1)
 			left_rim.body.velocity.x =  left_rim.body.velocity.x * -1
 			right_rim.body.velocity.x = right_rim.body.velocity.x * -1
+
 		}
 
 		function makeRequest(method, telegramMethod, body) {
