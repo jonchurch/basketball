@@ -50,6 +50,7 @@
 			game.load.image('hoop', 'assets/images/toilet_full.png');
 			game.load.image('toilet_bottom', 'assets/images/toilet_bottom_morecropped.png')
 			game.load.image('side rim', 'assets/images/side_rim.png');
+			game.load.image('twitter_logo', 'assets/images/twitter_logo.png')
 
 			game.load.image('splash', 'assets/images/splash.png');
 			game.load.image('win0', 'assets/images/win0.png');
@@ -132,6 +133,7 @@
 			sfx = game.add.audio('sfx')
 			sfx.allowMultiple = true;
 
+
 			sfx.addMarker('score', 7, 1)
 			sfx.addMarker('backboard', 0, 1)
 			sfx.addMarker('whoosh', 11, 1)
@@ -144,7 +146,7 @@
 			backboard.volume = 0.5;
 			whoosh = game.add.audio('whoosh');
 			fail = game.add.audio('fail');
-			fail.volume = 0.1;
+			// fail.volume = 0.1;
 			spawn = game.add.audio('spawn');
 			flush = game.add.audio('flush')
 
@@ -187,10 +189,10 @@
 			right_rim.body.static = true;
 			right_rim.body.setCollisionGroup(collisionGroup);
 			right_rim.body.collides([collisionGroup]);
+			twitter_logo = game.add.sprite(0, 595, 'twitter_logo')
+			twitter_link = game.add.text(32, 605, '@jonchurch', { font: 'Arial', fontSize: '14px', fill: '#0000EE', align: 'center' })
 
 			toilet_bottom_group = game.add.group()
-
-
 			createBall();
 
 
@@ -198,6 +200,7 @@
 
 			game.input.onDown.add(click, this);
 			game.input.onUp.add(release, this);
+
 
 		}
 
@@ -233,12 +236,12 @@
 					splashRight.scale.setTo(0.5, 0.5)
 					goal = true
 
-					sfx.play('score');
-					sfx.play('flush')
+					sfx.play('score', null, 0.5);
+					sfx.play('flush', null, 0.75)
 				} else {
 					splash = false
 					emojiName = "lose" + rand;
-					sfx.play('fail');
+					sfx.play('fail', null, 0.15);
 					if (current_score > high_score) {
 						high_score = current_score;
 						// 	high_score_text.text = 'High Score\n' + high_score;
@@ -377,7 +380,7 @@
 
 		function hitRim() {
 
-			sfx.play('backboard');
+			sfx.play('backboard', null, 0.5);
 
 		}
 
@@ -389,7 +392,7 @@
 			} else {
 				xpos = 60 + Math.random() * 280;
 			}
-			sfx.play('spawn');
+			sfx.play('spawn', null, 0.5);
 			ball = game.add.sprite(xpos, 547, 'ball');
 			ball.frame = 0
 			// ball = game.add.sprite(340, 547, 'ball');
@@ -462,7 +465,7 @@
 				ball.body.velocity.x = x_traj;
 				ball.body.velocity.y = -1750;
 				ball.body.rotateRight(x_traj / 3);
-				sfx.play('whoosh');
+				sfx.play('whoosh', null, 0.5);
 			}
 
 		}
