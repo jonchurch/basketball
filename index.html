@@ -256,7 +256,8 @@
 				ball.isBelowHoop = true;
 				ball.body.collideWorldBounds = false;
 				var rand = Math.floor(Math.random() * 6);
-				if (ball.body.x > 151 && ball.body.x < 251) {
+				// if (ball.body.x > 151 && ball.body.x < 251) {
+				if (ball.body.x > left_rim.x + 3 && ball.body.x < right_rim.x - 3) {
 					emojiName = "win" + rand;
 					current_score += 1;
 					current_score_text.text = current_score;
@@ -305,6 +306,7 @@
 					current_best_text.text = 'Current Best';
 					current_best_score_text.text = high_score;
 				}
+
 				emoji = game.add.sprite(165, 70, emojiName);
 				// emoji.scale.setTo(0.85, 0.85);
 				moveInTween = game.add.tween(emoji).from({
@@ -334,12 +336,12 @@
 				}
 			}
 
-			if (ball && ball.body.y > 250 && goal === true) {
-				game.physics.p2.gravity.y = 0;
-				ball.kill();
-				createBall();
-				goal = false
-			}
+			// if (ball && ball.body.y > 250 && goal === true) {
+			// 	game.physics.p2.gravity.y = 0;
+			// 	ball.kill();
+			// 	createBall();
+			// 	goal = false
+			// }
 			if (ball && ball.body.y > 1200) {
 				game.physics.p2.gravity.y = 0;
 				ball.kill();
